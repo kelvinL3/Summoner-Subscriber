@@ -11,25 +11,25 @@ python_version_minor_desired := 7
 
 
 
-setup: python-version venv requirements
+setup: venv requirements
 	echo done
 
+# ignore this for now
 python-version:
-	if [ $(python_version_major) -ne $(python_version_major_desired) ]; then\
-        echo "python major version doesn't match: expected $(python_version_major_desired) found $(python_version_major) "; exit 1;\
-    fi
-	if [ $(python_version_minor) -ne $(python_version_minor_desired) ]; then\
-        echo "python minor version doesn't match: expected $(python_version_minor_desired) found $(python_version_minor) "; exit 1;\
-    fi
-
-venv:
-	if [ -d "~/Dropbox" ]; then \
-		source venv/bin/activate \
-	else\
-		echo Creating new virtualenv at ./venv \
-		python3 -m venv venv \
+	@if [ $(python_version_major) -ne $(python_version_major_desired) ]; then\
+		echo "python major version doesn't match: expected $(python_version_major_desired) found $(python_version_major) "; exit 1;\
 	fi
-	
+	@if [ $(python_version_minor) -ne $(python_version_minor_desired) ]; then\
+		echo "python minor version doesn't match: expected $(python_version_minor_desired) found $(python_version_minor) "; exit 1;\
+	fi
+
+.PHONY: venv
+venv:
+ifeq ($(wildcard $(ROOTDIR)/venv/.),)
+	python3 -m venv venv
+endif
+	source $(ROOTDIR)/venv/bin/activate
+
 requirements:
 	# install pip dependencies
 	pip3 install -r requirements.txt
@@ -38,7 +38,7 @@ requirements:
 clean:
 	-rm -rf $(ROOTDIR)/__pycache__
 	-deactivate
-	-rm rf $(ROOTDIR)/venv
+	-rm -rf $(ROOTDIR)/venv
 	
 dev:
 	echo dev
