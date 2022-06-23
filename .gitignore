@@ -1,2 +1,3 @@
 aws_login.pem
 /venv
+**/*secrets*
