@@ -48,4 +48,5 @@ run:
 
 connect:
 	# chmod  400 ~/.ssh/id_rsa
+	echo "Looking in " $(ROOTDIR)/aws_login.pem " for key..."
 	ssh -i $(ROOTDIR)/aws_login.pem ec2-user@ec2-44-204-74-64.compute-1.amazonaws.com
