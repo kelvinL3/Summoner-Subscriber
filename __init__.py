@@ -1,4 +1,4 @@
 from . import logger
 from . import app
 from . import riot
-from . import discord
+from . import discord_api

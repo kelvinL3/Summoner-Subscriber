@@ -39,6 +39,7 @@ def find_participant_in_match(
     assert (
         len(participants) == 1
     ), f"There are {len(participants)} people named {summoner.name} in this match."
+    return participants[0]
 
 
 def get_solo_queue_rank(ranks: cass.Rank) -> str:
