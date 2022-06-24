@@ -20,7 +20,9 @@ def change_name(champion: str, rank: str, division: str):
     @client.event
     async def on_ready():
         print(client.guilds)
-        monarcho_guild = [guild for guild in client.guilds if guild.id == GUILD_ID][0]
+        monarcho_guild = [
+            guild for guild in client.guilds if guild.id == GUILD_ID
+        ][0]
 
         ankur_member = monarcho_guild.get_member_named(ANKUR_NAME)
 
@@ -34,5 +36,6 @@ def change_name(champion: str, rank: str, division: str):
         # await ankur_member.edit(nick=f"{normal} - {rank} {division}")
         # except :
         #     raise
+        exit(0)
 
     client.run(TOKEN)
