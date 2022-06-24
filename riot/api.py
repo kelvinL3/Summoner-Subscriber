@@ -12,6 +12,12 @@ DEFAULT_REGION = "NA"
 
 cass.set_riot_api_key(os.getenv("RIOT_API_KEY"))
 
+TOKEN = os.getenv("RIOT_API_KEY")
+if not TOKEN:
+    raise Exception("RIOT_API_KEY missing from env vars")
+
+cass.set_riot_api_key(TOKEN)
+
 
 def get_summoner(name: str, region: str = DEFAULT_REGION):
     return cass.Summoner(name=name, region=region)
@@ -33,7 +39,6 @@ def find_participant_in_match(
     assert (
         len(participants) == 1
     ), f"There are {len(participants)} people named {summoner.name} in this match."
-    return participants[0]
 
 
 def get_solo_queue_rank(ranks: cass.Rank) -> str:

@@ -6,7 +6,6 @@ victim = "anchor1"
 
 if __name__ == "__main__":
     ankur = riot.get_summoner(victim)
-    # import ipdb; ipdb.set_trace()
     current_match = riot.get_current_match(ankur)
 
     if current_match:
