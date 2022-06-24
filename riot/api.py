@@ -5,17 +5,26 @@
 
 # from cassiopeia import Summoner
 import cassiopeia as cass
-from .secrets import API_KEY, API_KEY2
+from datapipelines import NotFoundError
+from setuptools import setup
+import os
 
 ANKUR = 'anchor1'
 ANKUR_ALT = 'anchor2'
 
-REGION = 'NA'
+REGION = 'NA1'
 
-# def get_player()
-# pass
+cass.set_riot_api_key(os.getenv('RIOT_API_KEY'))
 
-cass.set_riot_api_key(API_KEY)
+def setup_summoner():
+    return cass.Summoner(name=ANKUR, region=REGION)
 
-anchor = cass.Summoner(name=ANKUR, region=REGION)
-# kalturi.match_history
+def get_current_match_details(anchor):
+    try:
+        anchor.current_match
+    except NotFoundError as e:
+        print("Anchor not in match", e)
+    except Exception as e:
+        raise e
+    
+    return anchor.current_match

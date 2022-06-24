@@ -11,8 +11,11 @@ python_version_minor_desired := 7
 
 
 
-setup: venv requirements
+setup: secrets venv requirements
 	echo done
+
+secrets:
+	source $(ROOTDIR)/secrets.sh
 
 # ignore this for now
 python-version:
@@ -35,11 +38,16 @@ requirements:
 	pip3 install -r requirements.txt
 
 
-clean:
+clean: clean-build
 	-rm -rf $(ROOTDIR)/__pycache__
 	-deactivate
 	-rm -rf $(ROOTDIR)/venv
-	
+
+clean-build:
+	-rm -rf $(ROOTDIR)/dist
+	-find . -name "$(ROOTDIR)/**/*.pyc" -exec rm -f {} \;
+	-rm -rf $(ROOTDIR)/UNKNOWN.egg-info 
+
 dev:
 	echo dev
 
