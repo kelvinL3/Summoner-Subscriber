@@ -1,4 +1,4 @@
 aws_login.pem
 /venv
-**/*secrets*
 **/__pycache__
+secrets.sh
