@@ -3,3 +3,4 @@ discord==1.7.3
 # 2 main riot api wrappers
 # https://riot-api-libraries.readthedocs.io/en/latest/libraries.html#python
 cassiopeia==5.0.1
+black==22.3.0
