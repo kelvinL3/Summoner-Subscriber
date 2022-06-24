@@ -51,6 +51,9 @@ dev:
 run:
 	python3 $(ROOTDIR)/app.py
 
+format:
+	black $(ROOTDIR)
+
 connect:
 	# chmod  400 ~/.ssh/id_rsa
 	echo "Looking in " $(ROOTDIR)/aws_login.pem " for key..."
