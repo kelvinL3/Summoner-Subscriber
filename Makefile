@@ -11,11 +11,8 @@ python_version_minor_desired := 7
 
 
 
-setup: secrets venv requirements
+setup: venv requirements
 	echo done
-
-secrets:
-	source $(ROOTDIR)/secrets.sh
 
 # ignore this for now
 python-version:
