@@ -12,8 +12,7 @@ if __name__ == "__main__":
 
     if current_match:
         logger.log("Ankur is currently in game")
-        ankur_participant = riot.find_participant_in_match(
-            current_match, ankur)
+        ankur_participant = riot.find_participant_in_match(current_match, ankur)
         logger.log(f"Ankur is playing {ankur_participant.champion.name}")
         logger.log(f"Ankur's current rank is {rank[0]} {rank[1]}")
     else:

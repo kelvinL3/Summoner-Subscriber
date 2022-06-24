@@ -20,9 +20,7 @@ def change_name(champion: str, rank: str, division: str):
     @client.event
     async def on_ready():
         print(client.guilds)
-        monarcho_guild = [
-            guild for guild in client.guilds if guild.id == GUILD_ID
-        ][0]
+        monarcho_guild = [guild for guild in client.guilds if guild.id == GUILD_ID][0]
 
         ankur_member = monarcho_guild.get_member_named(ANKUR_NAME)
 
@@ -30,7 +28,7 @@ def change_name(champion: str, rank: str, division: str):
 
         # reg = re.search("(.+)-\s*(\d+games\s+\w+)", ankur_display_name)
 
-        await ankur_member.edit(nick=ankur_display_name + ";")
+        # await ankur_member.edit(nick=ankur_display_name + ";")
         # try:
         # normal, status = reg.groups()
         # await ankur_member.edit(nick=f"{normal} - {rank} {division}")
