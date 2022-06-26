@@ -9,6 +9,7 @@ import os
 from typing import Optional
 import logger
 import db
+from collections import namedtuple
 
 DEFAULT_REGION = "NA"
 
@@ -78,3 +79,6 @@ def get_flex_queue_rank(ranks: cass.Rank) -> str:
     for rank, value in ranks.items():
         if rank.name == "ranked_flex_fives":
             return (value.tier, value.division)
+
+def get_solo_ranked_stats(summoner: cass.Summoner):
+    return next(league_entry for league_entry in summoner.league_entries if league_entry.queue.name == "ranked_solo_fives")

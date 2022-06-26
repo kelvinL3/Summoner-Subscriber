@@ -32,12 +32,9 @@ def last_recorded_match_id(summoner: str) -> Optional[str]:
     )
     cursor.execute(query, (summoner,))
 
-    for (match_id,) in cursor:
-        return match_id
-
+    row = cursor.fetchone()
     cursor.close()
-    # No game found
-    return None
+    return row[0]
 
 
 def add_game(
@@ -57,3 +54,32 @@ def add_game(
     cursor.execute(query, (match_id, summoner, win, champion, dt))
     db.commit()
     cursor.close()
+
+def update_discord_name(
+    discord_handle: str,
+    discord_name: str
+) -> None:
+    db.ping(reconnect=True)
+    cursor = db.cursor()
+    query = (
+        "UPDATE discord_name_info "
+        "SET discord_name = %s "
+        "WHERE discord_handle = %s"
+    )
+    cursor.execute(query, (discord_name, discord_handle))
+    db.commit()
+    cursor.close()
+
+def get_discord_name(discord_handle: str):
+    db.ping(reconnect=True)
+    cursor = db.cursor()
+    query = (
+        "SELECT discord_name FROM discord_name_info "
+        "WHERE discord_handle = %s "
+        "LIMIT 1"
+    )
+    cursor.execute(query, (discord_handle))
+
+    row = cursor.fetchone()
+    cursor.close()
+    return row

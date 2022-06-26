@@ -21,7 +21,6 @@ async def run_loop() -> None:
         logger.log(f"Ankur is playing {ankur_participant.champion.name}")
     else:
         logger.log("Ankur is currently not in game")
-    await discord.change_name("Hec", rank[0], rank[1])
     logger.log("Done")
     logger.log("===========")
 
