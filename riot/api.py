@@ -7,6 +7,8 @@ import cassiopeia as cass
 from datapipelines import NotFoundError
 import os
 from typing import Optional
+import logger
+import db
 
 DEFAULT_REGION = "NA"
 
@@ -36,15 +38,36 @@ def find_participant_in_match(
     return next(p for p in match.participants if p.summoner.name == summoner.name)
 
 
-def pull_latest_matches(summoner: cass.Summoner) -> None:
+def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
     # use summoner.match_history
     # 1 - get latest match not stored in DB
+    latest_match_id = db.last_game(summoner.name)
     # 2 - scan all matches from past week up until latest_match
-    # 3 - store match id, datetime, summoner, outcome, champion into db
-    #     participant.stats.win
-    #     participant.champion.name
-    pass
+    match_history = summoner.match_history
+    for match in match_history:
+        if limit == 0:
+            break
+        limit -= 1
 
+        match_id = match.id
+        if match_id == latest_match_id:
+            print(f"Match {match_id} already in db. Stopping...")
+            break
+
+        participant = find_participant_in_match(match, summoner)
+        summoner_name = summoner.name
+        win = participant.stats.win
+        champion_name = participant.champion.name
+        dt = match.creation.datetime
+        logger.log(f"Adding match {match_id}. {summoner_name} played {champion_name} at {dt}. Win: {win}")
+        db.add_game(
+            match_id=match_id,
+            summoner=summoner_name,
+            win=win,
+            champion=champion_name,
+            dt=dt,
+        )
+        logger.log(f"Added match {match_id}. {summoner} played {champion_name} at {dt}. Win: {win}")
 
 def get_solo_queue_rank(ranks: cass.Rank) -> str:
     for rank, value in ranks.items():

@@ -3,6 +3,7 @@ from riot import api as riot
 import logger
 from discord_api import api as discord
 import asyncio
+import db
 
 victim = "anchor1"
 COOLDOWN = 60
@@ -26,4 +27,8 @@ async def run_loop() -> None:
 
 
 if __name__ == "__main__":
-    discord.connect(run_loop, COOLDOWN)
+    try:
+        discord.connect(run_loop, COOLDOWN)
+    except:
+        db.db.close()
+        raise

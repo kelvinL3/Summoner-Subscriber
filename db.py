@@ -1,5 +1,7 @@
 import mysql.connector
 from datetime import datetime
+import os
+from typing import Optional
 
 MYSQL_HOST = os.getenv("MYSQL_HOST")
 MYSQL_USERNAME = os.getenv("MYSQL_USERNAME")
@@ -20,6 +22,7 @@ db = mysql.connector.connect(
 
 
 def last_game(summoner: str) -> Optional[str]:
+    db.ping(reconnect=True)
     cursor = db.cursor()
     query = (
         "SELECT match_id FROM games "
@@ -27,11 +30,12 @@ def last_game(summoner: str) -> Optional[str]:
         "ORDER BY datetime DESC "
         "LIMIT 1"
     )
-    cursor.excecute(query, (summoner,))
+    cursor.execute(query, (summoner,))
 
     for (match_id,) in cursor:
         return match_id
 
+    cursor.close()
     # No game found
     return None
 
@@ -43,6 +47,7 @@ def add_game(
     champion: str,
     dt: datetime,
 ) -> None:
+    db.ping(reconnect=True)
     cursor = db.cursor()
     query = (
         "INSERT INTO games "
@@ -50,3 +55,5 @@ def add_game(
         "VALUES (%s, %s, %s, %s, %s)"
     )
     cursor.execute(query, (match_id, summoner, win, champion, dt))
+    db.commit()
+    cursor.close()
