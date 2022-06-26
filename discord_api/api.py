@@ -3,7 +3,7 @@ from discord.ext import tasks
 import os
 import re
 import logger
-from typing import Callable, Awaitable
+from typing import Callable, Awaitable, Optional
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 if not TOKEN:
@@ -11,10 +11,10 @@ if not TOKEN:
 GUILD_ID = 706426037415837698
 ANKUR_NAME = "the kid#7020"
 
-_client = None
+_client: Optional[discord.Client] = None
 
 
-def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int):
+def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int) -> None:
     global _client
     intents = discord.Intents.default()
     intents.members = True
@@ -36,7 +36,7 @@ def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int):
     _client.run(TOKEN)
 
 
-async def change_name(champion: str, rank: str, division: str):
+async def change_name(champion: str, rank: str, division: str) -> None:
     assert _client, "Client no longer exists"
     monarcho_guild = [guild for guild in _client.guilds if guild.id == GUILD_ID][0]
 

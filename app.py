@@ -8,7 +8,7 @@ victim = "anchor1"
 COOLDOWN = 60
 
 
-async def run_loop():
+async def run_loop() -> None:
     ankur = riot.get_summoner(victim)
     current_match = riot.get_current_match(ankur)
     rank = riot.get_solo_queue_rank(ankur.ranks)
