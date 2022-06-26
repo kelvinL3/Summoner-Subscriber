@@ -6,3 +6,4 @@ cassiopeia==5.0.1
 black==22.3.0
 pytz==2022.1
 mysql-connector-python==8.0.29
+arrow==0.17.0
