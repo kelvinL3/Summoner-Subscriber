@@ -59,7 +59,9 @@ def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
         win = participant.stats.win
         champion_name = participant.champion.name
         dt = match.creation.datetime
-        logger.log(f"Adding match {match_id}. {summoner_name} played {champion_name} at {dt}. Win: {win}")
+        logger.log(
+            f"Adding match {match_id}. {summoner_name} played {champion_name} at {dt}. Win: {win}"
+        )
         db.add_game(
             match_id=match_id,
             summoner=summoner_name,
@@ -67,7 +69,10 @@ def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
             champion=champion_name,
             dt=dt,
         )
-        logger.log(f"Added match {match_id}. {summoner} played {champion_name} at {dt}. Win: {win}")
+        logger.log(
+            f"Added match {match_id}. {summoner} played {champion_name} at {dt}. Win: {win}"
+        )
+
 
 def get_solo_queue_rank(ranks: cass.Rank) -> str:
     for rank, value in ranks.items():
