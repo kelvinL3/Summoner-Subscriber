@@ -28,6 +28,26 @@ SECRETS = [
         template="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         description="Discord Developer Portal API Key",
     ),
+    Secret(
+        name="MYSQL_HOST",
+        template="localhost",
+        description="Hostname for mysql table",
+    ),
+    Secret(
+        name="MYSQL_USERNAME",
+        template="root",
+        description="Username for mysql table",
+    ),
+    Secret(
+        name="MYSQL_PASSWORD",
+        template="password123",
+        description="Password for mysql table",
+    ),
+    Secret(
+        name="MYSQL_TABLE",
+        template="summoner_subscriber",
+        description="Database name for mysql table",
+    ),
 ]
 
 VALS = {}

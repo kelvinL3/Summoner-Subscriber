@@ -10,6 +10,7 @@ COOLDOWN = 60
 
 async def run_loop() -> None:
     ankur = riot.get_summoner(victim)
+    riot.pull_latest_matches(ankur)
     current_match = riot.get_current_match(ankur)
     rank = riot.get_solo_queue_rank(ankur.ranks)
     logger.log(f"Ankur's current rank is {rank[0]} {rank[1]}")

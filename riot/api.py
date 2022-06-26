@@ -33,13 +33,16 @@ def get_current_match(summoner: cass.Summoner) -> Optional[cass.CurrentMatch]:
 def find_participant_in_match(
     match: cass.CurrentMatch, summoner: cass.Summoner
 ) -> "cass.Participant":
-    participants = list(
-        filter(lambda p: p.summoner.name == summoner.name, match.participants)
-    )
-    assert (
-        len(participants) == 1
-    ), f"There are {len(participants)} people named {summoner.name} in this match."
-    return participants[0]
+    return next(p for p in match.participants if p.summoner.name == summoner.name)
+
+def pull_latest_matches(summoner: cass.Summoner) -> None:
+    # use summoner.match_history
+    # 1 - get latest match not stored in DB
+    # 2 - scan all matches from past week up until latest_match
+    # 3 - store match id, datetime, summoner, outcome, champion into db
+    #     participant.stats.win
+    #     participant.champion.name
+    pass
 
 
 def get_solo_queue_rank(ranks: cass.Rank) -> str:
