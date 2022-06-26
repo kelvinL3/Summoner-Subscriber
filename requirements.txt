@@ -4,4 +4,4 @@ discord==1.7.3
 # https://riot-api-libraries.readthedocs.io/en/latest/libraries.html#python
 cassiopeia==5.0.1
 black==22.3.0
-pytz=2022.1
+pytz==2022.1

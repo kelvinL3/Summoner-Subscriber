@@ -16,3 +16,4 @@ def log(line: str, withTimeStamp: bool = True) -> None:
             f.write(str(datetime.now(pytz.utc)))
         f.write(line)
         f.write("\n")
+    print(line)
