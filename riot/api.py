@@ -35,6 +35,7 @@ def find_participant_in_match(
 ) -> "cass.Participant":
     return next(p for p in match.participants if p.summoner.name == summoner.name)
 
+
 def pull_latest_matches(summoner: cass.Summoner) -> None:
     # use summoner.match_history
     # 1 - get latest match not stored in DB
