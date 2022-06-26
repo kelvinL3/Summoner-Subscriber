@@ -7,6 +7,7 @@ import asyncio
 victim = "anchor1"
 COOLDOWN = 60
 
+
 async def run_loop():
     ankur = riot.get_summoner(victim)
     current_match = riot.get_current_match(ankur)

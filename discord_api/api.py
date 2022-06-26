@@ -13,6 +13,7 @@ ANKUR_NAME = "the kid#7020"
 
 _client = None
 
+
 def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int):
     global _client
     intents = discord.Intents.default()
@@ -20,7 +21,7 @@ def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int):
 
     class MyClient(discord.Client):
         async def on_ready(self):
-            print(f'Logged in as {self.user} (ID: {self.user.id})')
+            print(f"Logged in as {self.user} (ID: {self.user.id})")
             self.run_app.start()
 
         @tasks.loop(seconds=cooldown)  # task runs every 60 seconds
@@ -34,11 +35,10 @@ def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int):
     _client = MyClient(intents=intents)
     _client.run(TOKEN)
 
+
 async def change_name(champion: str, rank: str, division: str):
     assert _client, "Client no longer exists"
-    monarcho_guild = [
-        guild for guild in _client.guilds if guild.id == GUILD_ID
-    ][0]
+    monarcho_guild = [guild for guild in _client.guilds if guild.id == GUILD_ID][0]
 
     ankur_member = monarcho_guild.get_member_named(ANKUR_NAME)
     ankur_display_name = ankur_member.display_name
