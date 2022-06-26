@@ -14,6 +14,7 @@ def log(line: str, withTimeStamp: bool = True) -> None:
     with open(BASE_DIR / f"{current_date_as_str()}.log", "a") as f:
         if withTimeStamp:
             f.write(str(datetime.now(pytz.utc)))
+            f.write(" - ")
         f.write(line)
         f.write("\n")
     print(line)
