@@ -21,7 +21,7 @@ db = mysql.connector.connect(
 )
 
 
-def last_game(summoner: str) -> Optional[str]:
+def last_recorded_match_id(summoner: str) -> Optional[str]:
     db.ping(reconnect=True)
     cursor = db.cursor()
     query = (

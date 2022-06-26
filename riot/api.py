@@ -39,10 +39,7 @@ def find_participant_in_match(
 
 
 def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
-    # use summoner.match_history
-    # 1 - get latest match not stored in DB
-    latest_match_id = db.last_game(summoner.name)
-    # 2 - scan all matches from past week up until latest_match
+    latest_match_id = db.last_recorded_match_id(summoner.name)
     match_history = summoner.match_history
     for match in match_history:
         if limit == 0:
@@ -68,9 +65,6 @@ def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
             win=win,
             champion=champion_name,
             dt=dt,
-        )
-        logger.log(
-            f"Added match {match_id}. {summoner} played {champion_name} at {dt}. Win: {win}"
         )
 
 
