@@ -44,7 +44,7 @@ SECRETS = [
         description="Password for mysql table",
     ),
     Secret(
-        name="MYSQL_TABLE",
+        name="MYSQL_DATABASE",
         template="summoner_subscriber",
         description="Database name for mysql table",
     ),
