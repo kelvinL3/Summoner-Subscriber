@@ -49,7 +49,7 @@ def pull_latest_matches(summoner: cass.Summoner, limit: int = 20) -> None:
 
         match_id = match.id
         if match_id == latest_match_id:
-            print(f"Match {match_id} already in db. Stopping...")
+            logger.log(f"Match {match_id} already in db. Stopping...")
             break
 
         participant = find_participant_in_match(match, summoner)

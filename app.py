@@ -5,6 +5,7 @@ from discord_api import api as discord
 import asyncio
 import db
 
+ANKUR_NAME = "the kid#7020"
 victim = "anchor1"
 COOLDOWN = 60
 
@@ -19,8 +20,10 @@ async def run_loop() -> None:
         logger.log("Ankur is currently in game")
         ankur_participant = riot.find_participant_in_match(current_match, ankur)
         logger.log(f"Ankur is playing {ankur_participant.champion.name}")
+        await discord.change_name(ANKUR_NAME, ankur_participant.champion.name, rank[0], rank[1])
     else:
         logger.log("Ankur is currently not in game")
+        await discord.revert_name(ANKUR_NAME)
     logger.log("Done")
     logger.log("===========")
 
