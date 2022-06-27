@@ -34,7 +34,7 @@ def last_recorded_match_id(summoner: str) -> Optional[str]:
 
     row = cursor.fetchone()
     cursor.close()
-    return row[0]
+    return row[0] if row else None
 
 
 def add_game(
@@ -57,29 +57,42 @@ def add_game(
 
 def update_discord_name(
     discord_handle: str,
-    discord_name: str
+    discord_name: str,
+    name_override: Optional[str],
 ) -> None:
     db.ping(reconnect=True)
     cursor = db.cursor()
     query = (
-        "UPDATE discord_name_info "
-        "SET discord_name = %s "
-        "WHERE discord_handle = %s"
+        "INSERT INTO discord_name_info "
+        "(discord_handle, discord_name, name_override) "
+        "VALUES (%s, %s, %s) ON DUPLICATE KEY "
+        "UPDATE discord_name = %s, name_override = %s"
     )
-    cursor.execute(query, (discord_name, discord_handle))
+    cursor.execute(query, (discord_handle, discord_name, name_override, discord_name, name_override))
     db.commit()
     cursor.close()
 
-def get_discord_name(discord_handle: str):
+def get_discord_names(discord_handle: str):
     db.ping(reconnect=True)
     cursor = db.cursor()
     query = (
-        "SELECT discord_name FROM discord_name_info "
+        "SELECT discord_name, name_override FROM discord_name_info "
         "WHERE discord_handle = %s "
         "LIMIT 1"
     )
-    cursor.execute(query, (discord_handle))
+    cursor.execute(query, (discord_handle,))
 
     row = cursor.fetchone()
     cursor.close()
     return row
+
+def delete_discord_names(discord_handle: str):
+    db.ping(reconnect=True)
+    cursor = db.cursor()
+    query = (
+        "DELETE FROM discord_name_info "
+        "WHERE discord_handle = %s "
+    )
+    cursor.execute(query, (discord_handle,))
+    db.commit()
+    cursor.close()

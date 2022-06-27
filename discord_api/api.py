@@ -4,6 +4,7 @@ import os
 import re
 import logger
 from typing import Callable, Awaitable, Optional
+import db
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 if not TOKEN:
@@ -38,7 +39,6 @@ def connect(run_loop: Callable[[], Awaitable[None]], cooldown: int) -> None:
 async def change_name(disc_handle: str, champion: str, rank: str, division: str) -> None:
     assert _client, "Client no longer exists"
     monarcho_guild = [guild for guild in _client.guilds if guild.id == GUILD_ID][0]
-
     ankur_member = monarcho_guild.get_member_named(disc_handle)
     ankur_display_name = ankur_member.display_name
     logger.log(f"Ankur's current Discord name: {ankur_display_name}")
@@ -46,12 +46,22 @@ async def change_name(disc_handle: str, champion: str, rank: str, division: str)
     ankurs_new_name = f"{champion} - {rank} {division}"
     if ankur_display_name != ankurs_new_name:
         logger.log(f"Updating ankur's discord name to {ankurs_new_name}")
-        db.update_discord_name(disc_handle, ankur_display_name)
+        db.update_discord_name(disc_handle, ankur_display_name, ankurs_new_name)
         await ankur_member.edit(nick=ankurs_new_name)
 
 async def revert_name(disc_handle: str) -> None:
     # TODO - use account ID instead of handle since
     # ankur can change his handle
-    ankurs_old_name = db.get_discord_name(disc_handle)
+    monarcho_guild = [guild for guild in _client.guilds if guild.id == GUILD_ID][0]
+    ankur_member = monarcho_guild.get_member_named(disc_handle)
+    names = db.get_discord_names(disc_handle)
+    if names is None:
+        return
+    ankurs_old_name, ankurs_name_override = names
+    if ankurs_name_override != ankur_member.display_name:
+        logger.log(f"Ankur's game ended but his name is no longer {ankurs_name_override}. Doing nothing.")
+        db.delete_discord_names(disc_handle)
+        return
     logger.log(f"Reverting ankur's discord name to {ankurs_old_name}")
     await ankur_member.edit(nick=ankurs_old_name)
+    db.delete_discord_names(disc_handle)

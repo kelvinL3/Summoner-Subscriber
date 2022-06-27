@@ -21,6 +21,8 @@ if not TOKEN:
 
 cass.set_riot_api_key(TOKEN)
 
+def clear_cache():
+    cass.configuration.settings.pipeline._cache.clear(cass.Summoner)
 
 def get_summoner(name: str, region: str = DEFAULT_REGION) -> cass.Summoner:
     return cass.Summoner(name=name, region=region)

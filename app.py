@@ -11,6 +11,7 @@ COOLDOWN = 60
 
 
 async def run_loop() -> None:
+    riot.clear_cache()
     ankur = riot.get_summoner(victim)
     riot.pull_latest_matches(ankur)
     current_match = riot.get_current_match(ankur)
